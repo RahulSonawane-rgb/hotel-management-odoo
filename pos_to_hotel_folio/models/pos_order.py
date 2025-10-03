@@ -62,10 +62,10 @@ class PosOrder(models.Model):
                 price_unit = line.price_unit
 
                 # Map each POS line to a hotel.service to preserve pricing
-                hotel_service = self.env['hotel.service'].search([('name', '=', product.display_name)], limit=1)
+                hotel_service = self.env['hotel.service'].search([('name', '=', product.name)], limit=1)
                 if not hotel_service:
                     hotel_service = self.env['hotel.service'].create({
-                        'name': product.display_name,
+                        'name': product.name,
                         'unit_price': price_unit,
                     })
                 self.env['service.booking.line'].create({

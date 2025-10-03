@@ -9,7 +9,6 @@
     'license': 'LGPL-3',
     'depends': ['point_of_sale', 'hotel_management_odoo'],
     'data': [
-        'security/ir.model.access.csv',
         'views/pos_order_views.xml',
     ],
     'assets': {},
