@@ -169,3 +169,78 @@ class RoomBookingLine(models.Model):
                                 "Sorry You cannot create a reservation for this"
                                 "date due to an existing reservation between "
                                 "this date")
+                            
+    def _get_target_status_from_booking_state(self):
+        """Return the desired room status and availability based on the
+        parent booking's state.
+
+        - reserved -> ("reserved", False)
+        - check_in -> ("occupied", False)
+        - otherwise -> (None, None)
+        """
+        self.ensure_one()
+        state = self.booking_id.state
+        if state == 'reserved':
+            return 'reserved', False
+        if state == 'check_in':
+            return 'occupied', False
+        return None, None
+
+    def _recompute_room_status(self, room):
+        """Recompute and set the status for the given room considering all
+        active bookings (reserved/check_in) that reference it.
+
+        Priority: check_in -> occupied; reserved -> reserved; none -> available
+        """
+        if not room:
+            return
+        lines = self.env['room.booking.line'].search([
+            ('room_id', '=', room.id),
+            ('booking_id.state', 'in', ['reserved', 'check_in']),
+        ])
+        if lines.filtered(lambda l: l.booking_id.state == 'check_in'):
+            room.write({'status': 'occupied', 'is_room_avail': False})
+        elif lines:
+            room.write({'status': 'reserved', 'is_room_avail': False})
+        else:
+            room.write({'status': 'available', 'is_room_avail': True})
+
+    @api.model
+    def create(self, vals):
+        """Synchronize room status when adding a line to an already
+        reserved or checked-in booking."""
+        record = super().create(vals)
+        status, is_room_avail = record._get_target_status_from_booking_state()
+        if status and record.room_id:
+            record.room_id.write({'status': status, 'is_room_avail': is_room_avail})
+        return record
+
+    def write(self, vals):
+        """When room changes, free the previous room and set the new room's
+        status based on the parent booking's state."""
+        old_rooms_by_line_id = {}
+        if 'room_id' in vals:
+            for line in self:
+                old_rooms_by_line_id[line.id] = line.room_id
+        result = super().write(vals)
+        if 'room_id' in vals:
+            for line in self:
+                old_room = old_rooms_by_line_id.get(line.id)
+                new_room = line.room_id
+                if old_room and new_room and old_room != new_room:
+                    # Recompute status for old room considering other bookings
+                    line._recompute_room_status(old_room)
+                    # Set status for new room according to this booking's state
+                    status, is_room_avail = line._get_target_status_from_booking_state()
+                    if status:
+                        new_room.write({'status': status, 'is_room_avail': is_room_avail})
+        return result
+
+    def unlink(self):
+        """When removing the line, release the room if no other active
+        bookings hold it."""
+        rooms = self.mapped('room_id')
+        result = super().unlink()
+        for room in rooms:
+            self._recompute_room_status(room)
+        return result
