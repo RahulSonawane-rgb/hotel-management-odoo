@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_order_form_inherit_hotel" model="ir.ui.view">
+        <field name="name">pos.order.form.hotel.folio.integration</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Hotel">
+                    <group>
+                        <field name="room_id" options="{'no_open': True}"
+                               domain="[('id', 'in', available_room_ids)]"/>
+                        <field name="sent_to_folio" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_send_to_folio"
+                                type="object"
+                                string="Send to Folio"
+                                class="btn-primary"
+                                attrs="{'invisible': [('sent_to_folio', '=', True)]}"/>
+                    </footer>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
