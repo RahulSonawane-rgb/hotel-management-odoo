@@ -14,6 +14,7 @@
     'assets': {
         'point_of_sale._assets_pos': [
             'pos_to_hotel_folio/static/src/js/pos_hotel_folio.js',
+            'pos_to_hotel_folio/static/src/xml/pos_hotel_folio.xml',
         ],
     },
     'installable': True,

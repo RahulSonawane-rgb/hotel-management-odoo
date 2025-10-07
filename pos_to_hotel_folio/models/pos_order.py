@@ -40,7 +40,7 @@ class PosOrder(models.Model):
             ('booking_id.state', 'in', ['draft', 'check_in'])
         ])
         rooms = active_lines.mapped('room_id')
-        return [{'id': room.id, 'name': room.name_get()[0][1]} for room in rooms] if rooms else []
+        return [{'id': room.id, 'name': room.display_name} for room in rooms] if rooms else []
 
     def _get_active_booking_for_room(self, room):
         self.ensure_one()
