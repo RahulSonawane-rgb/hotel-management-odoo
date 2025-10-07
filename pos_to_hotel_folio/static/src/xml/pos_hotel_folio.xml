@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos_to_hotel_folio_templates">
+    <!-- Extend OrderWidget to add room selector -->
+    <t t-name="pos_to_hotel_folio.OrderWidget" t-extend="point_of_sale.OrderWidget">
+        <t t-jquery=".orderlines" t-operation="after">
+            <div class="pos-room-selector mb-2">
+                <label class="control-label">Room:</label>
+                <select name="room_id" class="form-control">
+                    <option value="">Select Room</option>
+                    <t t-foreach="widget.env.pos.available_rooms" t-as="room">
+                        <option t-att-value="room.id" t-esc="room.name"/>
+                    </t>
+                </select>
+            </div>
+        </t>
+    </t>
+
+    <!-- Template for Send to Folio button -->
+    <t t-name="pos_to_hotel_folio.SendToFolioButton">
+        <button class="btn btn-primary control-button" t-att-disabled="props.isDisabled ? 'disabled' : null">
+            Send to Folio
+        </button>
+    </t>
+</templates>
