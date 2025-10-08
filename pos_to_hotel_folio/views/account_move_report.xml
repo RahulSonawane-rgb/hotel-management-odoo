@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Extend invoice report to show Beneficiary under Customer if set -->
+    <!-- Extend invoice report to show Beneficiary if set, using stable anchor -->
     <template id="report_invoice_document_inherit_beneficiary" inherit_id="account.report_invoice_document">
-        <xpath expr="//div[@class='row mt32 mb32']/div[1]" position="inside">
-            <t t-if="o.beneficiary_id">
-                <div>
-                    <strong>Beneficiary:</strong>
-                    <span t-esc="o.beneficiary_id.display_name"/>
-                </div>
-            </t>
+        <xpath expr="//div[@name='origin']" position="after">
+            <div class="col" t-if="o.beneficiary_id" name="beneficiary">
+                <strong>Beneficiary</strong>
+                <div t-field="o.beneficiary_id"/>
+            </div>
         </xpath>
     </template>
 </odoo>
