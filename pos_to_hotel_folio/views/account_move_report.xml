@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Extend invoice report to show Beneficiary if set, using stable anchor -->
+    <template id="report_invoice_document_inherit_beneficiary" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@name='origin']" position="after">
+            <t t-if="o.beneficiary_ids">
+                <div class="col" name="beneficiary_list">
+                    <strong>Beneficiaries</strong>
+                    <div>
+                        <t t-foreach="o.beneficiary_ids" t-as="b">
+                            <span t-esc="b.display_name"/>
+                            <t t-if="not loop.last">, </t>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>
+

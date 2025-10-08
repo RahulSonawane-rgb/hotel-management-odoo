@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Add Beneficiary field under Customer in Room Booking form -->
+    <record id="room_booking_view_form_inherit_beneficiary" model="ir.ui.view">
+        <field name="name">room.booking.view.form.inherit.beneficiary</field>
+        <field name="model">room.booking</field>
+        <field name="inherit_id" ref="hotel_management_odoo.room_booking_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/field[@name='partner_id']" position="after">
+                <field name="beneficiary_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

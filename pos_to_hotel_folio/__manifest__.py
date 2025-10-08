@@ -10,6 +10,9 @@
     'data': [
         'security/ir.model.access.csv',
         'views/pos_order_views.xml',
+        'views/room_booking_views.xml',
+        'views/room_booking_beneficiary_view.xml',
+        'views/account_move_report.xml',
     ],
     'assets': {
         'point_of_sale._assets_pos': [
