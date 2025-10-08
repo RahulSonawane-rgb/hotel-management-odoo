@@ -6,7 +6,7 @@
         <field name="model">room.booking</field>
         <field name="inherit_id" ref="hotel_management_odoo.room_booking_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='service']//field[@name='service_line_ids']/list" position="inside">
+            <xpath expr="//page[@name='service']//field[@name='service_line_ids']/list/field[@name='description']" position="after">
                 <field name="pos_order_date" string="Date"/>
                 <field name="pos_table_id" string="Table" options="{'no_open': True, 'no_create': True}"/>
             </xpath>
