@@ -7,7 +7,16 @@ class RoomBooking(models.Model):
     beneficiary_id = fields.Many2one(
         'res.partner',
         string='Beneficiary',
-        help='Optional beneficiary/guest under the main customer (e.g., employee of a company).',
+        help='Deprecated: use Beneficiaries below.',
+        domain="[('parent_id','=',partner_id)]",
+    )
+    beneficiary_ids = fields.Many2many(
+        'res.partner',
+        'room_booking_beneficiary_rel',
+        'booking_id',
+        'partner_id',
+        string='Beneficiaries',
+        help='Optional beneficiaries/guests under the main customer.',
         domain="[('parent_id','=',partner_id)]",
     )
 
@@ -20,6 +29,7 @@ class RoomBooking(models.Model):
                 invoice.write({
                     'booking_id': booking.id,
                     'beneficiary_id': booking.beneficiary_id.id or False,
+                    'beneficiary_ids': [(6, 0, booking.beneficiary_ids.ids)],
                 })
         return res
 
