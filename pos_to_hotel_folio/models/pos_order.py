@@ -61,7 +61,7 @@ class PosOrder(models.Model):
             if not booking:
                 raise UserError(_('No active folio found for the selected room.'))
 
-            # Create service lines in folio (no category; appears in services/Food section via module UI)
+            # Create service lines in folio (no category; appears in services section via module UI)
             for line in order.lines:
                 product = line.product_id
                 quantity = line.qty
@@ -80,6 +80,8 @@ class PosOrder(models.Model):
                     'booking_id': booking.id,
                     'service_id': hotel_service.id,
                     'uom_qty': quantity,
+                    'pos_order_date': order.date_order,
+                    'pos_table_id': getattr(order, 'table_id', False) and order.table_id.id or False,
                 })
 
             order.sent_to_folio = True
