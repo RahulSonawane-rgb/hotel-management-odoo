@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="pos_to_hotel_folio_templates" xml:space="preserve">
-    <!-- Restore default Payment button everywhere. Add separate Send to Folio button only for restaurant action pad. -->
-    <t t-name="pos_to_hotel_folio.ActionpadWidgetRestaurant" t-inherit="pos_restaurant.ActionpadWidget" t-inherit-mode="extension">
-        <!-- Keep Payment button as-is; insert a secondary Send to Folio button right after it -->
-        <xpath expr="//div[hasclass('validation')]//button[hasclass('pay-order-button')]" position="after">
-            <button t-if="!currentOrder.is_empty()"
-                t-on-click="() =&gt; pos.sendCurrentOrderToFolio()"
-                class="button btn btn-light btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
+    <!-- Add 'Send to Folio' to the Actions modal (ControlButtons) -->
+    <t t-name="pos_to_hotel_folio.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('control-buttons-modal')]" position="inside">
+            <button class="btn btn-secondary btn-lg py-5"
+                t-if="!currentOrder?.is_empty()"
+                t-on-click="() =&gt; this.pos.sendCurrentOrderToFolio()"
             >
+                <i class="fa fa-bed me-1" role="img" aria-label="Send to Folio" title="Send to Folio"/>
                 Send to Folio
             </button>
         </xpath>
