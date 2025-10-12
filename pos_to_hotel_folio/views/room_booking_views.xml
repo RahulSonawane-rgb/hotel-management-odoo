@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- Inject Date and Table columns into Service list -->
-    <record id="room_booking_view_form_inherit_pos_to_hotel_folio" model="ir.ui.view">
-        <field name="name">room.booking.view.form.inherit.pos.to.hotel.folio</field>
+    <record id="room_booking_view_form_inherit_pos_to_hotel_folio_by_RS" model="ir.ui.view">
+        <field name="name">room.booking.view.form.inherit.pos.to.hotel.folio.by.RS</field>
         <field name="model">room.booking</field>
         <field name="inherit_id" ref="hotel_management_odoo.room_booking_view_form"/>
         <field name="arch" type="xml">
@@ -13,4 +13,3 @@
         </field>
     </record>
 </odoo>
-
