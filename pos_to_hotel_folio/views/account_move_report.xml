@@ -3,7 +3,7 @@
     <!-- Extend invoice report to show Beneficiary if set, using stable anchor -->
     <template id="report_invoice_document_inherit_beneficiary" inherit_id="account.report_invoice_document">
         <xpath expr="//div[@name='origin']" position="after">
-            <t t-if="o.beneficiary_ids">
+            <t t-if="'beneficiary_ids' in o._fields and o.beneficiary_ids">
                 <div class="col" name="beneficiary_list">
                     <strong>Beneficiaries</strong>
                     <div>

@@ -5,7 +5,7 @@
               inherit_id="l10n_in.l10n_in_report_invoice_document_inherit">
         <!-- Replace the foreach that assumes o.beneficiary_ids exists with a guarded version -->
         <xpath expr="//t[@t-foreach='o.beneficiary_ids']" position="replace">
-            <t t-if="getattr(o, 'beneficiary_ids', False)">
+            <t t-if="'beneficiary_ids' in o._fields and o.beneficiary_ids">
                 <t t-foreach="o.beneficiary_ids" t-as="b">
                     <t t-esc="b.display_name"/>
                 </t>
