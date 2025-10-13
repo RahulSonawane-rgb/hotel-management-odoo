@@ -19,14 +19,7 @@ patch(PosStore.prototype, {
         }
         return res;
     },
-    async pay() {
-        // Intercept the default payment flow in restaurant mode
-        if (this.config?.module_pos_restaurant) {
-            await this.sendCurrentOrderToFolio();
-            return;
-        }
-        return await super.pay(...arguments);
-    },
+    // Keep default payment flow; Send-to-Folio is now a separate action/button
     async sendCurrentOrderToFolio() {
         const order = this.get_order();
         if (!order || order.lines.length === 0 || order.finalized) {

@@ -17,13 +17,14 @@ Key Features:
     'category': 'Point of Sale',
     'author': 'Rahul Sonawane',
     'license': 'LGPL-3',
-    'depends': ['point_of_sale', 'pos_restaurant', 'hotel_management_odoo'],
+    'depends': ['point_of_sale', 'pos_restaurant', 'hotel_management_odoo', 'l10n_in'],
     'data': [
         'security/ir.model.access.csv',
         'views/pos_order_views.xml',
         'views/room_booking_views.xml',
         'views/room_booking_beneficiary_view.xml',
-        'views/account_move_report.xml'
+        'views/account_move_report.xml',
+        'views/l10n_in_invoice_beneficiary_guard.xml'
     ],
     'images': [
         'static/description/icon.png',
