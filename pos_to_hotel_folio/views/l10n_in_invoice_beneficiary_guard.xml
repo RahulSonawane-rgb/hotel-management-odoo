@@ -3,13 +3,9 @@
     <!-- Guard l10n_in invoice report to avoid accessing non-existing fields -->
     <template id="l10n_in_report_invoice_document_inherit_guard"
               inherit_id="l10n_in.l10n_in_report_invoice_document_inherit">
-        <!-- Replace the foreach that assumes o.beneficiary_ids exists with a guarded version -->
+        <!-- Keep template safe but avoid rendering here; base template handles placement under salesperson -->
         <xpath expr="//t[@t-foreach='o.beneficiary_ids']" position="replace">
-            <t t-if="getattr(o, 'beneficiary_ids', False)">
-                <t t-foreach="o.beneficiary_ids" t-as="b">
-                    <t t-esc="b.display_name"/>
-                </t>
-            </t>
+            <t/>
         </xpath>
     </template>
 </odoo>
